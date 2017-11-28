@@ -3,17 +3,14 @@ package code0.land_location;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,65 +18,24 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import code0.nearme.SearchLocbyType;
+public class ShowUsers extends AppCompatActivity {
 
-import static code0.land_location.LoginActivity.user;
-
-public class AdminActivity extends AppCompatActivity
-{
     ListView listView;
-
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+
+    {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin);
-        getSupportActionBar().setTitle("My lands");
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(AdminActivity.this, AdminAdd.class));
-            }
-        });
-        getJSON(user);
-        listView=(ListView)findViewById(R.id.listview);
-        listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-
-
-
-
-
-                HashMap<String, String> map = (HashMap) parent.getItemAtPosition(position);
-                final String land_id = map.get("land_id");
-                Log.d("result", land_id);
-                final String location = map.get("location");
-                final String price = map.get("price");
-                final String user = map.get("user");
-                final String status = map.get("statis");
-                final String time = map.get("time");
-
-                
-
-
-
-
-
-            }});
+        setContentView(R.layout.activity_show_users);
+        listView= (ListView) findViewById(R.id.listview);
+        getJSON( "owner");
 
     }
-
-
-
     public void getJSON(final String owner_id)
     {
         class GetJSON extends AsyncTask<Void, Void, String> {
 
-           ProgressDialog progressDialog = new ProgressDialog(AdminActivity.this);
+            ProgressDialog progressDialog = new ProgressDialog(ShowUsers.this);
 
             @Override
             protected void onPreExecute() {
@@ -95,8 +51,6 @@ public class AdminActivity extends AppCompatActivity
                 HashMap<String, String> employees = new HashMap<>();
                 employees.put("owner_id", owner_id );
                 String res=rh.sendPostRequest(URLs.main+"fetchlands.php",employees);
-
-
                 return res;
 
             }
@@ -105,7 +59,6 @@ public class AdminActivity extends AppCompatActivity
                 super.onPostExecute(s);
                 progressDialog.dismiss();
                 showthem(s);
-              //  Toast.makeText(AdminActivity.this, s, Toast.LENGTH_SHORT).show();
 
             }
 
@@ -115,8 +68,8 @@ public class AdminActivity extends AppCompatActivity
         jj.execute();
     }
 
-
-    private void showthem(String s) {
+    private void showthem(String s)
+    {
 
         JSONObject jsonObject = null;
         ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
@@ -171,7 +124,7 @@ public class AdminActivity extends AppCompatActivity
         } catch (JSONException e)
         {
 
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AdminActivity.this);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ShowUsers.this);
             alertDialogBuilder.setTitle("Attention!").setMessage(String.valueOf(e))
                     .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                         @Override
@@ -182,8 +135,9 @@ public class AdminActivity extends AppCompatActivity
                     .setCancelable(true).show();
         }
 
-        ListAdapter adapter = new SimpleAdapter(AdminActivity.this, list, R.layout.admin_view_coaches,
+        ListAdapter adapter = new SimpleAdapter(ShowUsers.this, list, R.layout.admin_view_coaches,
                 new String[]{"location", "price","status", "time"}, new int[]{R.id.textView27, R.id.textView26,R.id.textView28, R.id.textView25});
         listView.setAdapter(adapter);
     }
+
 }

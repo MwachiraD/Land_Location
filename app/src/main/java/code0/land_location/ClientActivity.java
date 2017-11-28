@@ -138,7 +138,7 @@ public class ClientActivity extends AppCompatActivity {
                 super.onPostExecute(s);
                 progressDialog.dismiss();
                 showthem(s);
-                //Toast.makeText(ClientActivity.this, s, Toast.LENGTH_SHORT).show();
+
 
             }
 

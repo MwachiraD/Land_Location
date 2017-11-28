@@ -18,41 +18,40 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
-        <activity android:name="code0.land_location.LoginActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="code0.land_location.AdminActivity" />
-        <activity android:name="code0.land_location.AdminAdd" />
-        <activity android:name="code0.land_location.ClientActivity" />
-        <activity android:name="code0.land_location.ClientBook" />
-        <activity android:name="code0.land_location.CoachActivity" />
+        <activity android:name=".AdminActivity" />
+        <activity android:name=".AdminAdd" />
+        <activity android:name=".ClientActivity" />
+        <activity android:name=".ClientBook" />
+        <activity android:name=".CoachActivity" />
         <activity
-            android:name="code0.land_location.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="code0.land_location.ClientRegistration" />
-        <activity android:name="code0.land_location.ActivityChat" />
+        <activity android:name=".ClientRegistration" />
+        <activity android:name=".ActivityChat" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="code0.land_location.PlaceViewer"
-            android:label="@string/title_activity_place_viewer"></activity>
-
+            android:name=".PlaceViewer"
+            android:label="@string/title_activity_place_viewer" />
         <activity
             android:name="code0.nearme.SearchLocbyType"
-            android:label="@string/title_activity_place_viewer"></activity>
-
+            android:label="@string/title_activity_place_viewer" />
         <activity
-            android:name="code0.land_location.ClientMap"
+            android:name=".ClientMap"
             android:label="@string/title_activity_client_map" />
-        <activity android:name="code0.land_location.Amenities"></activity>
+        <activity android:name=".Amenities" />
+        <activity android:name=".ShowUsers"></activity>
     </application>
 
 </manifest>
