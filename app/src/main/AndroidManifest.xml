@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="code0.land_location">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality. 
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light">
+        <activity android:name="code0.land_location.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="code0.land_location.AdminActivity" />
+        <activity android:name="code0.land_location.AdminAdd" />
+        <activity android:name="code0.land_location.ClientActivity" />
+        <activity android:name="code0.land_location.ClientBook" />
+        <activity android:name="code0.land_location.CoachActivity" />
+        <activity
+            android:name="code0.land_location.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="code0.land_location.ClientRegistration" />
+        <activity android:name="code0.land_location.ActivityChat" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name="code0.land_location.PlaceViewer"
+            android:label="@string/title_activity_place_viewer"></activity>
+
+        <activity
+            android:name="code0.nearme.SearchLocbyType"
+            android:label="@string/title_activity_place_viewer"></activity>
+
+        <activity
+            android:name="code0.land_location.ClientMap"
+            android:label="@string/title_activity_client_map" />
+        <activity android:name="code0.land_location.Amenities"></activity>
+    </application>
+
+</manifest>

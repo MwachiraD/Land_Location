@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Land system</string>
+    <string name="title_activity_coach">CoachActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+
+
+    <string-array name="type">
+        <item>Land</item>
+        <item>Surveyor</item>
+    </string-array>
+
+
+    <string-array name="surveyor">
+        <item>Choose your category</item>
+        <item>Government</item>
+        <item>Private</item>
+    </string-array>
+    <string name="title_activity_place_viewer">Map</string>
+    <string name="title_activity_client_map">Map</string>
+</resources>

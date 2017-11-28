@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "991031441893",
+    "firebase_url": "https://landlocation-915c9.firebaseio.com",
+    "project_id": "landlocation-915c9",
+    "storage_bucket": "landlocation-915c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:991031441893:android:5af2d90a2a91b6b2",
+        "android_client_info": {
+          "package_name": "code0.land_location"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "991031441893-93rd7dsvnob8ig56eavio490atj87h2k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "code0.land_location",
+            "certificate_hash": "291b51bbd9b316dc65fc75085072fafc8ce73ffb"
+          }
+        },
+        {
+          "client_id": "991031441893-ug9hiu3sek540s857leuvtojm192i0gq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6BmTZ6uHMMK88sfCRRtWS-P3Bqsg-vx8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "991031441893-ug9hiu3sek540s857leuvtojm192i0gq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
