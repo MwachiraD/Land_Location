@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,20 +23,13 @@ public class ClientBook extends AppCompatActivity {
     String location, user, time, status;
     String user_id;
     String price;
+    static String land_id;
+    String phone_number ="254726442087";
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_book);
-
-
-
-
-
-
-
-
-
 
 
         Intent intent = getIntent();
@@ -45,19 +39,14 @@ public class ClientBook extends AppCompatActivity {
 
         user=intent.getStringExtra("user");
         price=intent.getStringExtra("location");
-final String land_id=intent.getStringExtra("land_id");
+        land_id=intent.getStringExtra("land_id");
+        Log.d("result", land_id);
 
         amt=(EditText) findViewById(R.id.editText9);
         amt.setText(price);
         editText14=(EditText) findViewById(R.id.editText14);
         button4=(Button)findViewById(R.id.button4);
         button8=(Button)findViewById(R.id.button8);
-
-String phone_number ="254726442087";
-
-        //sms sender
-//        SmsManager  smsManager  = SmsManager.getDefault();
-//        smsManager.sendTextMessage(phone_number,null, user+ "has selected you to be his surveyor", null, null);
 
         button8.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,17 +65,26 @@ startActivity(new Intent(ClientBook.this, ClientMap.class));
                 startActivity(new Intent(ClientBook.this, ActivityChat.class)
                 .putExtra("receiver", user)
                         .putExtra("land_id", land_id)
+                        .putExtra("who", "client")
                         .putExtra("chat_type", "landseller")
                 );
             }
         });
 
+        findViewById(R.id.button4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                phone_number= editText14.getText().toString();
+                book(phone_number, price,land_id,user);
+            }
+        });
 
 
     }
 
-//book(coach_phone, ammount, timebooked, category);
-public void book(final String phone, final String coach_phone, final String ammt, final String time, final String category)
+
+public void book(final String phone, final String ammt, final String land_id, final String user_id)
 {
     class GetJSON extends AsyncTask<Void, Void, String> {
 
@@ -108,38 +106,32 @@ public void book(final String phone, final String coach_phone, final String ammt
         {
             RequestHandler rh = new RequestHandler();
             HashMap<String, String> employees = new HashMap<>();
-            employees.put("customer_id)", user_id);
-            employees.put("coach_phone", coach_phone);
+            employees.put("user_id", user_id);
+            employees.put("land_id", land_id);
             employees.put("ammount", ammt);
             employees.put("phone",phone);
-            employees.put("time", time);
-            employees.put("coach", user);
-            employees.put("user", user_id);
-            employees.put("category", category);
 
-            /*
-            $ammount2=$_POST['ammount'];
-$user=$_POST['user'];
-             */
             String res=rh.sendPostRequest(URLs.main+"mpesa/home.php",employees);
             return res;
 
         }
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(String s)
+        {
             super.onPostExecute(s);
+
             progressDialog.dismiss();
-          //  Toast.makeText(ClientBook.this, "data "+s, Toast.LENGTH_SHORT).show();
-            if (s.substring(0,1).equals("1")) {
+            if (s.substring(0,1).equals("1"))
+            {
                 new AlertDialog.Builder(ClientBook.this)
-                        .setMessage("Your request has been received")
+                        .setMessage("Your request has been received" )
                         .show();
 
             }
             else
             {
                 new AlertDialog.Builder(ClientBook.this)
-                        .setMessage("Request failed!")
+                        .setMessage("Request failed! Land might have been booked!")
                         .show();
             }
 

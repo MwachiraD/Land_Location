@@ -74,7 +74,7 @@
         android:layout_below="@+id/editText9"
         android:layout_centerHorizontal="true"
         android:backgroundTint="@color/colorPrimary"
-        android:text="pay via mpesa"
+        android:text="pay and book"
         android:textColor="@color/white" />
 
     <EditText

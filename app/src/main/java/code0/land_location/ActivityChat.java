@@ -1,8 +1,13 @@
 package code0.land_location;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,17 +26,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import static code0.land_location.LoginActivity.user;
 
 public class ActivityChat extends AppCompatActivity {
    // private FirebaseListAdapter<ChatMessage> adapter;
     ChatView mChatView;
-    String msgfrom ="momanyi", msgto="joseph", chattype="";
+    String msgfrom, msgto="joseph", chattype="";
+    String who;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef;
@@ -45,7 +53,9 @@ public class ActivityChat extends AppCompatActivity {
         }
 
         Intent intent= getIntent();
+        msgfrom=user;
         msgto=intent.getStringExtra("receiver");
+        who = getIntent().getStringExtra("who");
         final String land_id=intent.getStringExtra("land_id");
         chattype= intent.getStringExtra("chat_type");
         getSupportActionBar().setTitle("Land system chat");
@@ -65,24 +75,24 @@ public class ActivityChat extends AppCompatActivity {
         });
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onChildAdded(DataSnapshot dataSnapshot, String s)
+            {
                 ChatMessage chat = dataSnapshot.getValue(ChatMessage.class);
-                //ChatMessage(String current_user,String messageReceiver, String chatType, long time, String message_text, String message_sender)
                 String isme="false";
-
                     String sender_then=chat.getCurrent_user();
                     String chatType=chat.getChatType();
                     String Message_text=chat.getMessage_text();
-                    String Message_sender=chat.getMessage_sender();
+
                     String MessageReceiver=chat.getMessageReceiver();
+                    String land_id_feteched = chat.getLand_id();
 
                     long Time=chat.getTime();
-
-               // Toast.makeText(ActivityChat.this, chatType, Toast.LENGTH_SHORT).show();
                 if(chatType.equals(chattype))
                 {
 
-                    if(sender_then.equals(user) || MessageReceiver.equals(user))
+                    if( (sender_then.equals(user) ||
+                            MessageReceiver.equals(user)) &&
+                            land_id_feteched.equals(land_id))
                     {
 
 
@@ -191,12 +201,26 @@ public class ActivityChat extends AppCompatActivity {
                 String sms= mChatView.getInputText();
                 mChatView.setInputText("");
                 Date d= new Date();
+
+
+
                 ChatMessage send_msg=new ChatMessage(user, msgto, chattype,d.getTime(), sms, msgfrom,land_id);
                 FirebaseDatabase.getInstance()
                         .getReference()
                         .push()
                         .setValue(send_msg);
+
+
+
+                if(who.equals("client"))
+                {
+                    insert ( user,  land_id);
+
+                }
+
             }
+
+
 
         });
 
@@ -208,6 +232,42 @@ public class ActivityChat extends AppCompatActivity {
 
 
 
+    }
 
-    }}
+public void insert (final String username, final String land_id)
+{
+    class GetJSON extends AsyncTask<Void, Void, String> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            RequestHandler rh = new RequestHandler();
+            HashMap<String, String> paramms = new HashMap<>();
+            paramms.put("username", username);
+            paramms.put("land_id", land_id);
+            String s = rh.sendPostRequest(URLs.main+"save.php", paramms);
+            return s;
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+        }
+
+
+    }
+    GetJSON jj = new GetJSON();
+    jj.execute();
+
+
+}
+}
 
