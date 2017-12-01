@@ -45,6 +45,7 @@ public class AdminActivity extends AppCompatActivity
         });
         getJSON(user);
         listView=(ListView)findViewById(R.id.listview);
+
         listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)

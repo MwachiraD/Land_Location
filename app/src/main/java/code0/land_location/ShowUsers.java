@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,6 +72,8 @@ public class ShowUsers extends AppCompatActivity {
 
     private void showthem(String s)
     {
+
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
         JSONObject jsonObject = null;
         ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 
