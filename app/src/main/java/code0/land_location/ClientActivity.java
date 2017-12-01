@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,7 +17,6 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +48,8 @@ public class ClientActivity extends AppCompatActivity {
 
                 if (selected == 0)
                 {
-                    getJSON("");
+                    getJSON("lands");
+
                 } else {
 
                     getJSON("surveyor");
@@ -65,16 +67,18 @@ public class ClientActivity extends AppCompatActivity {
         user_id = intent.getStringExtra("username");
         listView = (ListView) findViewById(R.id.listview);
 
-        listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener()
+        {
             @Override
             public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
 
                 HashMap<String, String> map = (HashMap) parent.getItemAtPosition(position);
 
                 final String who = map.get("who");
-
-                if(who== "location")
+                //Toast.makeText(ClientActivity.this, who, Toast.LENGTH_SHORT).show();
+                if(who.equals("land"))
                 {
+
                     coerdinates = map.get("cordinates");
                     final String land_id = map.get("land_id");
                     Log.d("result", land_id);
@@ -120,60 +124,71 @@ public class ClientActivity extends AppCompatActivity {
                         }
                     });
                     builder.show();
-                }
-                else
-                {
-                    /*
-                    employees.put("location", location);
-                    employees.put("surveyor_id", surveyor_id);
-                    employees.put("category", category);
-                    employees.put("name", name);
-                    employees.put("user", owner);
-                    employees.put("phone", phone);
-                     */
-                    final String phone = map.get("phone");
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ClientActivity.this);
-                    builder.setTitle("Notify Surveyor");
-                    builder.setMessage("Select notification means")
-                            .setNegativeButton("Call", new DialogInterface.OnClickListener()
-                            {
+                }
+                else {
+
+                    final String phone_number = map.get("phone");
+                    final AlertDialog.Builder  alert = new AlertDialog.Builder(ClientActivity.this);
+                    alert
+                            .setMessage("Choose your preferred way to contact the surveyor")
+                            .setNegativeButton("Call", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    String phone = "+254"+phone_number;
+                                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null));
+                                    startActivity(intent);
+                                }
+                            })
+                            .setPositiveButton("Send short message", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which)
                                 {
+                                    sendSMS(phone_number, "Land System \nUser ID"+user_id+" is requesting for your serevices!");
 
                                 }
                             })
-                            .setPositiveButton("Text", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which)
-                                {
+                            .show();
+                }
 
-                                }
-                            });
                 }
 
 
 
 
-            }
+
         });
 
     }
 
-    public void getJSON(final String owner_id) {
+    public void sendSMS(String phoneNo, String msg) {
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNo, null, msg, null, null);
+            Toast.makeText(getApplicationContext(), "Message Sent",
+                    Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            Toast.makeText(getApplicationContext(),ex.getMessage().toString(),
+                    Toast.LENGTH_LONG).show();
+            ex.printStackTrace();
+        }
+    }
+    public void getJSON(final String owner_id)
+    {
         class GetJSON extends AsyncTask<Void, Void, String> {
 
             ProgressDialog progressDialog = new ProgressDialog(ClientActivity.this);
-String url;
+            String url;
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
 
-                if(owner_id=="")
+                //Toast.makeText(ClientActivity.this, owner_id, Toast.LENGTH_SHORT).show();
+                if(owner_id=="lands")
                 {
+                    //Toast.makeText(ClientActivity.this, owner_id, Toast.LENGTH_SHORT).show();
                     url=URLs.main + "fetchlands.php";
-
                 }
                 else
                 {
@@ -191,7 +206,7 @@ String url;
             protected String doInBackground(Void... params) {
                 RequestHandler rh = new RequestHandler();
                 HashMap<String, String> employees = new HashMap<>();
-                employees.put("owner_id", owner_id);
+                employees.put("owner_id", "client");
                 String res = rh.sendPostRequest(url, employees);
                 return res;
 
@@ -202,9 +217,9 @@ String url;
                 super.onPostExecute(s);
                 progressDialog.dismiss();
 
+           //     Toast.makeText(ClientActivity.this, s, Toast.LENGTH_SHORT).show();
 
-
-                if(owner_id=="")
+                if(owner_id=="lands")
                 {
                     url=URLs.main + "fetchlands.php";
                     showthem(s);
@@ -244,21 +259,23 @@ String url;
                 succes = jo.getString("success");
                 if (succes.equals("1"))
                 {
+                    //{"result":[{"surveyor_id":"2580","category":"Government","nbame":"Robert","phone":"079854","email":"email","location":"","success":"1"}]}
+
                     String location, surveyor_id, category, name, phone, email;
-                    String land_id = jo.getString("id");
-                    String owner = jo.getString("user");
+
+                   // String owner = jo.getString("user");
                     location = jo.getString("location");
                     surveyor_id = jo.getString("surveyor_id");
                     category = jo.getString("category");
-                    name = jo.getString("name");
+                    name = jo.getString("nbame");
                     phone = jo.getString("phone");
+
                     HashMap<String, String> employees = new HashMap<>();
                     employees.put("who", "surveyor");
                     employees.put("location", location);
                     employees.put("surveyor_id", surveyor_id);
                     employees.put("category", category);
                     employees.put("name", name);
-                    employees.put("user", owner);
                     employees.put("phone", phone);
                     Log.d("result", String.valueOf(employees));
 
@@ -287,13 +304,15 @@ String url;
         ListAdapter adapter = new SimpleAdapter(ClientActivity.this, list, R.layout.client_coach_list,
                 new String[]{"location", "name", "phone"}, new int[]{R.id.textView35, R.id.textView37, R.id.textView36});
         listView.setAdapter(adapter);
+
+
     }
 
 
     private void showthem(String s)
     {
 
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
         Log.d("result", s);
         JSONObject jsonObject = null;
         ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
@@ -316,6 +335,7 @@ String url;
                     price = jo.getString("price");
                     cordinates = jo.getString("cordinates");
                     time = jo.getString("timestamps");
+                   // Toast.makeText(this, location, Toast.LENGTH_SHORT).show();
                     status = jo.getString("status");
                     HashMap<String, String> employees = new HashMap<>();
                     employees.put("who", "land");

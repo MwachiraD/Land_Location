@@ -3,6 +3,9 @@
     package="code0.land_location">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use

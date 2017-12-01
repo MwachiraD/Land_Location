@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_margin="5dp"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text=""
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
@@ -54,10 +54,9 @@
         android:id="@+id/textView35"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView32"
-        android:layout_alignBottom="@+id/textView32"
-        android:layout_alignLeft="@+id/textView20"
-        android:layout_alignStart="@+id/textView20"
+        android:layout_above="@+id/textView33"
+        android:layout_alignLeft="@+id/textView36"
+        android:layout_alignStart="@+id/textView36"
         android:text="TextView" />
 
     <TextView
@@ -66,8 +65,10 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView33"
         android:layout_alignBottom="@+id/textView33"
-        android:layout_alignLeft="@+id/textView35"
-        android:layout_alignStart="@+id/textView35"
+        android:layout_marginEnd="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_toLeftOf="@+id/textView20"
+        android:layout_toStartOf="@+id/textView20"
         android:text="TextView" />
 
     <TextView
@@ -78,6 +79,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/textView34"
-        android:text="TextView" />
+        android:text="" />
 
 </RelativeLayout>
