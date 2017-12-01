@@ -8,7 +8,7 @@
         android:id="@+id/imageView4"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:srcCompat="@drawable/gymtwo" />
+        app:srcCompat="@drawable/bg" />
 
     <TextView
         android:id="@+id/textView20"
@@ -24,11 +24,11 @@
         android:id="@+id/textView31"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:layout_alignParentTop="true"
+        android:layout_margin="5dp"
         android:layout_toEndOf="@+id/imageView4"
         android:layout_toRightOf="@+id/imageView4"
-        android:text="Coach Name:" />
+        android:text="Surveyor Name:" />
 
     <TextView
         android:id="@+id/textView32"
@@ -38,7 +38,7 @@
         android:layout_margin="5dp"
         android:layout_toEndOf="@+id/imageView4"
         android:layout_toRightOf="@+id/imageView4"
-        android:text="Gender:" />
+        android:text="Location" />
 
     <TextView
         android:id="@+id/textView33"
@@ -49,15 +49,6 @@
         android:layout_toEndOf="@+id/imageView4"
         android:layout_toRightOf="@+id/imageView4"
         android:text="Mobile phone number" />
-
-    <TextView
-        android:id="@+id/textView34"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView33"
-        android:layout_toEndOf="@+id/imageView4"
-        android:layout_toRightOf="@+id/imageView4"
-        android:text="Available Date:" />
 
     <TextView
         android:id="@+id/textView35"
@@ -89,25 +80,4 @@
         android:layout_alignTop="@+id/textView34"
         android:text="TextView" />
 
-    <TextView
-        android:id="@+id/textView39"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView40"
-        android:layout_alignBottom="@+id/textView40"
-        android:layout_alignLeft="@+id/textView34"
-        android:layout_alignStart="@+id/textView34"
-        android:text="Price per session" />
-
-    <TextView
-        android:id="@+id/textView40"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView37"
-        android:text="TextView"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_alignLeft="@+id/textView37"
-        android:layout_alignStart="@+id/textView37" />
 </RelativeLayout>

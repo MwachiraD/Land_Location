@@ -50,10 +50,6 @@ public class AdminActivity extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
 
-
-
-
-
                 HashMap<String, String> map = (HashMap) parent.getItemAtPosition(position);
                 final String land_id = map.get("land_id");
                 Log.d("result", land_id);
@@ -62,13 +58,7 @@ public class AdminActivity extends AppCompatActivity
                 final String user = map.get("user");
                 final String status = map.get("statis");
                 final String time = map.get("time");
-
-                
-
-
-
-
-
+                startActivity(new Intent(AdminActivity.this, ShowUsers.class).putExtra("land_id", land_id));
             }});
 
     }

@@ -14,6 +14,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,14 +39,27 @@ public class ClientActivity extends AppCompatActivity {
 
         spinner7 = (Spinner) findViewById(R.id.spinner7);
 
-        int selected = spinner7.getSelectedItemPosition();
 
-        if (selected == 0) {
+        spinner7.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int selected, long id) {
 
-            getJSON("client");
-        } else {
-            // getJSON("1");
-        }
+
+                if (selected == 0)
+                {
+                    getJSON("");
+                } else {
+
+                    getJSON("surveyor");
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         Intent intent = getIntent();
         user_id = intent.getStringExtra("username");
@@ -55,52 +70,91 @@ public class ClientActivity extends AppCompatActivity {
             public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
 
                 HashMap<String, String> map = (HashMap) parent.getItemAtPosition(position);
-                coerdinates = map.get("cordinates");
-                final String land_id = map.get("land_id");
 
-                Log.d("result", land_id);
-                final String location = map.get("location");
-                final String price = map.get("price");
-                final String user = map.get("user");
-                final String status = map.get("statis");
-                final String time = map.get("time");
+                final String who = map.get("who");
 
-                final AlertDialog.Builder builder = new AlertDialog.Builder(ClientActivity.this);
-                builder.setMessage("Select Action");
-                builder.setPositiveButton("Book land", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                if(who== "location")
+                {
+                    coerdinates = map.get("cordinates");
+                    final String land_id = map.get("land_id");
+                    Log.d("result", land_id);
+                    final String location = map.get("location");
+                    final String price = map.get("price");
+                    final String user = map.get("user");
+                    final String status = map.get("statis");
+                    final String time = map.get("time");
 
-                        startActivity(new Intent(ClientActivity.this, ClientBook.class)
-                                .putExtra("location", location)
-                                .putExtra("price", price)
-                                .putExtra("user", user)
-                                .putExtra("status", status)
-                                .putExtra("time", price)
-                                .putExtra("land_id", land_id)
-                        );
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(ClientActivity.this);
+                    builder.setMessage("Select Action");
+                    builder.setPositiveButton("Book land", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            startActivity(new Intent(ClientActivity.this, ClientBook.class)
+                                    .putExtra("location", location)
+                                    .putExtra("price", price)
+                                    .putExtra("user", user)
+                                    .putExtra("status", status)
+                                    .putExtra("time", price)
+                                    .putExtra("land_id", land_id)
+                            );
 
 
-                    }
-                });
-                builder.setNegativeButton("View nearby amenities", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    builder.setNegativeButton("View nearby amenities", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                        Log.d("coerdinates", coerdinates);
+                            Log.d("coerdinates", coerdinates);
 
-                        startActivity(new Intent(ClientActivity.this, SearchLocbyType.class)
-                                .putExtra("location", location)
-                                .putExtra("price", price)
-                                .putExtra("user", user)
-                                .putExtra("coerdinates", coerdinates)
-                                .putExtra("status", status)
-                                .putExtra("time", price)
-                                .putExtra("land_id", land_id));
+                            startActivity(new Intent(ClientActivity.this, SearchLocbyType.class)
+                                    .putExtra("location", location)
+                                    .putExtra("price", price)
+                                    .putExtra("user", user)
+                                    .putExtra("coerdinates", coerdinates)
+                                    .putExtra("status", status)
+                                    .putExtra("time", price)
+                                    .putExtra("land_id", land_id));
 
-                    }
-                });
-                builder.show();
+                        }
+                    });
+                    builder.show();
+                }
+                else
+                {
+                    /*
+                    employees.put("location", location);
+                    employees.put("surveyor_id", surveyor_id);
+                    employees.put("category", category);
+                    employees.put("name", name);
+                    employees.put("user", owner);
+                    employees.put("phone", phone);
+                     */
+                    final String phone = map.get("phone");
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ClientActivity.this);
+                    builder.setTitle("Notify Surveyor");
+                    builder.setMessage("Select notification means")
+                            .setNegativeButton("Call", new DialogInterface.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which)
+                                {
+
+                                }
+                            })
+                            .setPositiveButton("Text", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which)
+                                {
+
+                                }
+                            });
+                }
+
+
+
 
             }
         });
@@ -111,10 +165,22 @@ public class ClientActivity extends AppCompatActivity {
         class GetJSON extends AsyncTask<Void, Void, String> {
 
             ProgressDialog progressDialog = new ProgressDialog(ClientActivity.this);
-
+String url;
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+
+                if(owner_id=="")
+                {
+                    url=URLs.main + "fetchlands.php";
+
+                }
+                else
+                {
+                    url=URLs.main + "fetchsurveyors.php";
+
+                }
+
 
                 progressDialog.setMessage("Fetching data...");
                 progressDialog.setCancelable(false);
@@ -126,9 +192,7 @@ public class ClientActivity extends AppCompatActivity {
                 RequestHandler rh = new RequestHandler();
                 HashMap<String, String> employees = new HashMap<>();
                 employees.put("owner_id", owner_id);
-                String res = rh.sendPostRequest(URLs.main + "fetchlands.php", employees);
-                //http://192.168.0.35/gym/fetchcoaches.php
-
+                String res = rh.sendPostRequest(url, employees);
                 return res;
 
             }
@@ -137,7 +201,20 @@ public class ClientActivity extends AppCompatActivity {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 progressDialog.dismiss();
-                showthem(s);
+
+
+
+                if(owner_id=="")
+                {
+                    url=URLs.main + "fetchlands.php";
+                    showthem(s);
+                }
+                else
+                {
+                    url=URLs.main + "fetchsurveyors.php";
+                    showthem2(s);
+                }
+
 
 
             }
@@ -148,9 +225,75 @@ public class ClientActivity extends AppCompatActivity {
         jj.execute();
     }
 
+    private void showthem2(String s)
+    {
+//{"result":[{"surveyor_id":"2580","category":"Government","name":"Robert","phone":"079854","email":"email","location":"","success":"1"}]}
+        Log.d("result", s);
+        JSONObject jsonObject = null;
+        ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 
-    private void showthem(String s) {
+        try {
+            jsonObject = new JSONObject(s);
+            JSONArray result = jsonObject.getJSONArray("result");
 
+            String succes = "0";
+            for (int i = 0; i < result.length(); i++) {
+                JSONObject jo = result.getJSONObject(i);
+
+
+                succes = jo.getString("success");
+                if (succes.equals("1"))
+                {
+                    String location, surveyor_id, category, name, phone, email;
+                    String land_id = jo.getString("id");
+                    String owner = jo.getString("user");
+                    location = jo.getString("location");
+                    surveyor_id = jo.getString("surveyor_id");
+                    category = jo.getString("category");
+                    name = jo.getString("name");
+                    phone = jo.getString("phone");
+                    HashMap<String, String> employees = new HashMap<>();
+                    employees.put("who", "surveyor");
+                    employees.put("location", location);
+                    employees.put("surveyor_id", surveyor_id);
+                    employees.put("category", category);
+                    employees.put("name", name);
+                    employees.put("user", owner);
+                    employees.put("phone", phone);
+                    Log.d("result", String.valueOf(employees));
+
+
+                    list.add(employees);
+                } else
+                    {
+
+                }
+            }
+
+
+        } catch (JSONException e) {
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ClientActivity.this);
+            alertDialogBuilder.setTitle("Attention!").setMessage(String.valueOf(e))
+                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    })
+                    .setCancelable(true).show();
+        }
+
+        ListAdapter adapter = new SimpleAdapter(ClientActivity.this, list, R.layout.client_coach_list,
+                new String[]{"location", "name", "phone"}, new int[]{R.id.textView35, R.id.textView37, R.id.textView36});
+        listView.setAdapter(adapter);
+    }
+
+
+    private void showthem(String s)
+    {
+
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
         Log.d("result", s);
         JSONObject jsonObject = null;
         ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
@@ -175,7 +318,7 @@ public class ClientActivity extends AppCompatActivity {
                     time = jo.getString("timestamps");
                     status = jo.getString("status");
                     HashMap<String, String> employees = new HashMap<>();
-
+                    employees.put("who", "land");
                     employees.put("location", price);
                     employees.put("land_id", land_id);
                     employees.put("cordinates", cordinates);

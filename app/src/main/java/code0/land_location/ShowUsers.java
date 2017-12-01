@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ShowUsers extends AppCompatActivity {
-
     ListView listView;
+    String land_id;
     @Override
     protected void onCreate(Bundle savedInstanceState)
 
@@ -28,10 +28,11 @@ public class ShowUsers extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_users);
         listView= (ListView) findViewById(R.id.listview);
-        getJSON( "owner");
+        land_id=getIntent().getStringExtra("land_id");
+        getJSON(land_id);
 
     }
-    public void getJSON(final String owner_id)
+    public void getJSON(final String land_id)
     {
         class GetJSON extends AsyncTask<Void, Void, String> {
 
@@ -46,13 +47,13 @@ public class ShowUsers extends AppCompatActivity {
                 progressDialog.show();
             }
             @Override
-            protected String doInBackground(Void... params) {
+            protected String doInBackground(Void... params)
+            {
                 RequestHandler rh = new RequestHandler();
                 HashMap<String, String> employees = new HashMap<>();
-                employees.put("owner_id", owner_id );
-                String res=rh.sendPostRequest(URLs.main+"fetchlands.php",employees);
+                employees.put("land_id", land_id );
+                String res=rh.sendPostRequest(URLs.main+"fetchbooked.php",employees);
                 return res;
-
             }
             @Override
             protected void onPostExecute(String s) {
@@ -70,7 +71,6 @@ public class ShowUsers extends AppCompatActivity {
 
     private void showthem(String s)
     {
-
         JSONObject jsonObject = null;
         ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 
@@ -86,6 +86,7 @@ public class ShowUsers extends AppCompatActivity {
                 succes=jo.getString("success");
                 if (succes.equals("1"))
                 {
+
                     String location, price, status, time, cordinates;
                     String land_id = jo.getString("id");
                     String owner = jo.getString("user");
@@ -95,7 +96,6 @@ public class ShowUsers extends AppCompatActivity {
                     time = jo.getString("timestamps");
                     status = jo.getString("status");
                     HashMap<String, String> employees = new HashMap<>();
-
                     employees.put("location", price);
                     employees.put("land_id", land_id);
                     employees.put("cordinates", cordinates);
@@ -110,10 +110,6 @@ public class ShowUsers extends AppCompatActivity {
                 {
 
                 }
-
-
-
-
 
             }
 
