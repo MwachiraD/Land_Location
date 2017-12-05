@@ -87,10 +87,6 @@ public class ChatMessage {
     private long Time;
 
 
-
-
-
-
     public ChatMessage (){ }
 
 

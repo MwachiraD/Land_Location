@@ -29,31 +29,15 @@ EditText location, price, email_adress, telephone_number;
 
         Button button6;
 
-//        List<String> spinnerArray =  new ArrayList<String>();
-//        spinnerArray.add("Gender");
-//        spinnerArray.add("Male");
-//        spinnerArray.add("Female");
-
-
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-//                this, android.R.layout.simple_spinner_item, spinnerArray);
-//
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        final Spinner sItems = (Spinner) findViewById(R.id.spinner);
-//        sItems.setAdapter(adapter);
-
         location=(EditText)findViewById(R.id.editText3);
         price=(EditText)findViewById(R.id.editText4);
-//        email_adress=(EditText)findViewById(R.id.editText5);
-//        telephone_number=(EditText)findViewById(R.id.editText6);
         reg=(Button)findViewById(R.id.button2);
-
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String locaton=location.getText().toString();
                 String pric=price.getText().toString();
-                //Toast.makeText(AdminAdd.this, cordinate, Toast.LENGTH_SHORT).show();
+
                 try
                 {
                     if(cordinate.length()<=0)
@@ -71,14 +55,11 @@ EditText location, price, email_adress, telephone_number;
                 }
 
 
-
-
-
-
             }
         });
 
         button6=(Button)findViewById(R.id.button6);
+
         button6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

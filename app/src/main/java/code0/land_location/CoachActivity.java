@@ -246,9 +246,6 @@ public class CoachActivity extends AppCompatActivity implements DatePickerDialog
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 progressDialog.dismiss();
-               // showthem(s);
-               // getJSON(username);
-              //  Toast.makeText(CoachActivity.this, s, Toast.LENGTH_SHORT).show();
 
                 if(s.equals("1"))
                 {
@@ -262,6 +259,8 @@ public class CoachActivity extends AppCompatActivity implements DatePickerDialog
                             })
                             .setCancelable(true).show();
                 }
+                else
+                    new AlertDialog.Builder(CoachActivity.this).setMessage("Failed to add your qualifications. Please try again later").show();
 
             }
 

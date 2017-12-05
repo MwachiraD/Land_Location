@@ -59,6 +59,7 @@ public class AdminActivity extends AppCompatActivity
                 final String user = map.get("user");
                 final String status = map.get("statis");
                 final String time = map.get("time");
+
                 startActivity(new Intent(AdminActivity.this, ShowUsers.class).putExtra("land_id", land_id));
             }});
 

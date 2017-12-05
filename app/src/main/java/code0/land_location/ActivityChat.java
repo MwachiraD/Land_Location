@@ -11,10 +11,9 @@ import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
-
 import com.github.bassaer.chatmessageview.models.Message;
 import com.github.bassaer.chatmessageview.models.User;
 import com.github.bassaer.chatmessageview.views.ChatView;
@@ -30,17 +29,18 @@ import java.util.HashMap;
 
 import static code0.land_location.LoginActivity.user;
 
-public class ActivityChat extends AppCompatActivity {
+public class ActivityChat extends AppCompatActivity
+{
    // private FirebaseListAdapter<ChatMessage> adapter;
     ChatView mChatView;
     String msgfrom, msgto="joseph", chattype="";
     String who;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef;
         if(database==null)
@@ -48,7 +48,8 @@ public class ActivityChat extends AppCompatActivity {
             database.setPersistenceEnabled(true);
             myRef= database.getReference();
         }
-        else {
+        else
+        {
             myRef= database.getReference();
         }
 
@@ -59,12 +60,12 @@ public class ActivityChat extends AppCompatActivity {
         final String land_id=intent.getStringExtra("land_id");
         chattype= intent.getStringExtra("chat_type");
         getSupportActionBar().setTitle("Land system chat");
-        myRef.addValueEventListener(new ValueEventListener() {
+
+        myRef.addValueEventListener(new ValueEventListener()
+        {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-
-
 
             }
 
@@ -77,27 +78,39 @@ public class ActivityChat extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s)
             {
+
+
                 ChatMessage chat = dataSnapshot.getValue(ChatMessage.class);
+
                 String isme="false";
+
                     String sender_then=chat.getCurrent_user();
                     String chatType=chat.getChatType();
                     String Message_text=chat.getMessage_text();
 
-                    String MessageReceiver=chat.getMessageReceiver();
-                    String land_id_feteched = chat.getLand_id();
 
+                    String MessageReceiver=chat.getMessageReceiver();
+
+
+                    String land_id_feteched = chat.getLand_id();
                     long Time=chat.getTime();
+                    String final_data=chat.getCurrent_user()+" "+chat.getMessage_sender() +" "+chat.getMessageReceiver() +" "+ chat.getLand_id();
+                    Log.d("chat_data", String.valueOf(final_data));
+
+
                 if(chatType.equals(chattype))
                 {
 
-                    if( (sender_then.equals(user) ||
-                            MessageReceiver.equals(user)) &&
-                            land_id_feteched.equals(land_id))
+
+                    Log.d("msg sender_then", sender_then);
+                    Log.d("msg MessageReceiver", MessageReceiver);
+                    Log.d("msg user", user);
+                    if( (sender_then.equals(user) || MessageReceiver.equals(user)) && land_id_feteched.equals(land_id))
                     {
 
 
-                        if(msgto.equals(MessageReceiver))
-                        {
+//                        if(msgto.equals(MessageReceiver))
+//                        {
 
                             if(sender_then.equals(user))
                             {
@@ -134,25 +147,22 @@ public class ActivityChat extends AppCompatActivity {
                             }
 
 
-                        }
-
-
+//                        }
+//                        else
+//                            Log.d("msg", "Error occured here!");
+//
+//
 
 
                     }
+                    else
+                        Log.d("msg", "sender then does not equal to current user");
 
                 }
+                else {
+                    Log.d("msg", "chats do not match!!");
+                }
 
-
-
-
-
-
-
-
-
-
-//                Toast.makeText(ActivityChat.this, mesasge, Toast.LENGTH_SHORT).show();
 
             }
 
@@ -180,7 +190,6 @@ public class ActivityChat extends AppCompatActivity {
 
 
         mChatView = (ChatView)findViewById(R.id.chat_view);
-
         //Set UI parameters if you need
         mChatView.setRightBubbleColor(ContextCompat.getColor(this, R.color.green500));
         mChatView.setLeftBubbleColor(Color.WHITE);
@@ -195,23 +204,18 @@ public class ActivityChat extends AppCompatActivity {
         mChatView.setInputTextHint("new message...");
         mChatView.setMessageMarginTop(5);
         mChatView.setMessageMarginBottom(5);
+
         mChatView.setOnClickSendButtonListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String sms= mChatView.getInputText();
                 mChatView.setInputText("");
                 Date d= new Date();
-
-
-
                 ChatMessage send_msg=new ChatMessage(user, msgto, chattype,d.getTime(), sms, msgfrom,land_id);
                 FirebaseDatabase.getInstance()
                         .getReference()
                         .push()
                         .setValue(send_msg);
-
-
-
                 if(who.equals("client"))
                 {
                     insert ( user,  land_id);
@@ -223,12 +227,6 @@ public class ActivityChat extends AppCompatActivity {
 
 
         });
-
-
-
-
-
-
 
 
 
@@ -259,6 +257,7 @@ public void insert (final String username, final String land_id)
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            Toast.makeText(ActivityChat.this, "Message sent!", Toast.LENGTH_SHORT).show();
 
         }
 

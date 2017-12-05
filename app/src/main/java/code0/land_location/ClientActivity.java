@@ -36,22 +36,16 @@ public class ClientActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
-
-
         spinner7 = (Spinner) findViewById(R.id.spinner7);
-
-
         spinner7.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int selected, long id) {
-
-
                 if (selected == 0)
                 {
                     getJSON("lands");
 
-                } else {
-
+                } else
+                {
                     getJSON("surveyor");
                 }
 
@@ -126,7 +120,8 @@ public class ClientActivity extends AppCompatActivity {
                     builder.show();
 
                 }
-                else {
+                else
+                {
 
                     final String phone_number = map.get("phone");
                     final AlertDialog.Builder  alert = new AlertDialog.Builder(ClientActivity.this);
@@ -269,6 +264,7 @@ public class ClientActivity extends AppCompatActivity {
                     category = jo.getString("category");
                     name = jo.getString("nbame");
                     phone = jo.getString("phone");
+                    String is_verified = jo.getString("is_verified");
 
                     HashMap<String, String> employees = new HashMap<>();
                     employees.put("who", "surveyor");
@@ -277,6 +273,7 @@ public class ClientActivity extends AppCompatActivity {
                     employees.put("category", category);
                     employees.put("name", name);
                     employees.put("phone", phone);
+                    employees.put("is_verified",is_verified);
                     Log.d("result", String.valueOf(employees));
 
 
@@ -302,7 +299,7 @@ public class ClientActivity extends AppCompatActivity {
         }
 
         ListAdapter adapter = new SimpleAdapter(ClientActivity.this, list, R.layout.client_coach_list,
-                new String[]{"location", "name", "phone"}, new int[]{R.id.textView35, R.id.textView37, R.id.textView36});
+                new String[]{"location", "name", "phone","is_verified"}, new int[]{R.id.textView35, R.id.textView37, R.id.textView36, R.id.textView42});
         listView.setAdapter(adapter);
 
 
