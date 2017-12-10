@@ -70,8 +70,8 @@ public class ClientActivity extends AppCompatActivity {
 
                 final String who = map.get("who");
                 //Toast.makeText(ClientActivity.this, who, Toast.LENGTH_SHORT).show();
-                if(who.equals("land"))
-                {
+                if(who.equals("land")) {
+
 
                     coerdinates = map.get("cordinates");
                     final String land_id = map.get("land_id");
@@ -79,8 +79,15 @@ public class ClientActivity extends AppCompatActivity {
                     final String location = map.get("location");
                     final String price = map.get("price");
                     final String user = map.get("user");
-                    final String status = map.get("statis");
+                    final String status = map.get("status");
                     final String time = map.get("time");
+
+                    if (status.equals("Sold")) {
+
+                        Toast.makeText(ClientActivity.this, "Land has already been sold!", Toast.LENGTH_SHORT).show();
+
+                    } else {
+
 
                     final AlertDialog.Builder builder = new AlertDialog.Builder(ClientActivity.this);
                     builder.setMessage("Select Action");
@@ -118,6 +125,8 @@ public class ClientActivity extends AppCompatActivity {
                         }
                     });
                     builder.show();
+
+                }
 
                 }
                 else
@@ -198,7 +207,8 @@ public class ClientActivity extends AppCompatActivity {
             }
 
             @Override
-            protected String doInBackground(Void... params) {
+            protected String doInBackground(Void... params)
+            {
                 RequestHandler rh = new RequestHandler();
                 HashMap<String, String> employees = new HashMap<>();
                 employees.put("owner_id", "client");
@@ -237,6 +247,8 @@ public class ClientActivity extends AppCompatActivity {
 
     private void showthem2(String s)
     {
+        //new AlertDialog.Builder(ClientActivity.this).setMessage(s).show();
+        Log.d("result",s);
 //{"result":[{"surveyor_id":"2580","category":"Government","name":"Robert","phone":"079854","email":"email","location":"","success":"1"}]}
         Log.d("result", s);
         JSONObject jsonObject = null;
@@ -257,7 +269,6 @@ public class ClientActivity extends AppCompatActivity {
                     //{"result":[{"surveyor_id":"2580","category":"Government","nbame":"Robert","phone":"079854","email":"email","location":"","success":"1"}]}
 
                     String location, surveyor_id, category, name, phone, email;
-
                    // String owner = jo.getString("user");
                     location = jo.getString("location");
                     surveyor_id = jo.getString("surveyor_id");
