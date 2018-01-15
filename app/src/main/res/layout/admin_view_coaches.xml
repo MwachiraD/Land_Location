@@ -89,4 +89,48 @@
         android:layout_below="@+id/textView28"
         android:text="TextView" />
 
+    <TextView
+        android:id="@+id/textView41"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+
+        android:layout_alignLeft="@+id/textView24"
+        android:layout_alignStart="@+id/textView24"
+        android:layout_below="@+id/textView24"
+        android:text="Soli type" />
+
+    <TextView
+        android:id="@+id/textView43"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:padding="5dp"
+
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView25"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textView44"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView41"
+        android:layout_alignStart="@+id/textView41"
+        android:layout_below="@+id/textView41"
+        android:padding="5dp"
+
+        android:text="Altitude" />
+
+    <TextView
+        android:id="@+id/textView45"
+        android:padding="5dp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView43"
+        android:layout_alignRight="@+id/textView43"
+        android:layout_below="@+id/textView43"
+        android:text="TextView" />
+
 </RelativeLayout>

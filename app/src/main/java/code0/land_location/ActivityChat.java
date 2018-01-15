@@ -58,6 +58,8 @@ public class ActivityChat extends AppCompatActivity
         msgto=intent.getStringExtra("receiver");
         who = getIntent().getStringExtra("who");
         final String land_id=intent.getStringExtra("land_id");
+        Log.d("land_id", land_id);
+
         chattype= intent.getStringExtra("chat_type");
         getSupportActionBar().setTitle("Land system chat");
 

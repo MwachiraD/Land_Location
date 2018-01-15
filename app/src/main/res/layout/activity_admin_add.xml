@@ -47,10 +47,9 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add land"
-        android:layout_below="@+id/editText4"
-        android:layout_alignRight="@+id/imageView2"
-        android:layout_alignEnd="@+id/imageView2" />
+        android:layout_below="@+id/spinner8"
+        android:layout_centerHorizontal="true"
+        android:text="Save land!" />
 
     <Button
         android:id="@+id/button6"
@@ -60,5 +59,26 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="11dp"
         android:text="Select cordinates from map" />
+
+    <Spinner
+        android:id="@+id/spinner4"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:entries="@array/altitude"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editText4" />
+
+    <Spinner
+        android:id="@+id/spinner8"
+        android:layout_margin="10dp"
+        android:entries="@array/soil_type"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/spinner4" />
 
 </RelativeLayout>

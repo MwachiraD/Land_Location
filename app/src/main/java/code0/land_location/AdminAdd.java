@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -19,6 +20,9 @@ import static code0.land_location.LoginActivity.user;
 public class AdminAdd extends AppCompatActivity {
 EditText location, price, email_adress, telephone_number;
     Button reg;
+Spinner spinner4, spinner8;
+
+
     public static String cordinate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,9 @@ EditText location, price, email_adress, telephone_number;
         getSupportActionBar().setTitle("Add land");
 
         Button button6;
+
+        spinner4=(Spinner)findViewById(R.id.spinner4);
+        spinner8=(Spinner)findViewById(R.id.spinner8);
 
         location=(EditText)findViewById(R.id.editText3);
         price=(EditText)findViewById(R.id.editText4);
@@ -46,7 +53,11 @@ EditText location, price, email_adress, telephone_number;
                     }
                     else
                     {
-                        register(user,locaton, pric, cordinate);
+                        String altitude = spinner4.getSelectedItem().toString();
+                        String soiltype = spinner8.getSelectedItem().toString();
+
+
+                        register(user,locaton, pric, cordinate, altitude, soiltype);
                     }
                 }
                 catch (Exception ex)
@@ -71,7 +82,7 @@ EditText location, price, email_adress, telephone_number;
     }
 
 
-   public void register(final String user,final String location, final String price, final String cordinate)
+   public void register(final String user,final String location, final String price, final String cordinate, final String altitude, final String soiltype)
     {
         class GetJSON extends AsyncTask<Void, Void, String> {
 
@@ -80,7 +91,6 @@ EditText location, price, email_adress, telephone_number;
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-
 
                 pDialog.setMessage("Adding location...");
                 pDialog.setCancelable(false);
@@ -94,6 +104,11 @@ EditText location, price, email_adress, telephone_number;
                 paramms.put("user", user);
                 paramms.put("cordinate", cordinate);
                 paramms.put("location", location);
+
+                paramms.put("altitude", altitude);
+                paramms.put("soiltype", soiltype);
+
+
                 paramms.put("price", price);
                 String s = rh.sendPostRequest(URLs.main+"regland.php", paramms);
                 return s;

@@ -143,7 +143,7 @@ public class ShowUsers extends AppCompatActivity {
     private void showthem1(String s)
     {
 
-        new AlertDialog.Builder(ShowUsers.this).setMessage(s).show();
+       // new AlertDialog.Builder(ShowUsers.this).setMessage(s).show();
 
         JSONObject jsonObject = null;
         ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
@@ -221,7 +221,7 @@ public class ShowUsers extends AppCompatActivity {
     private void showthem(String s)
     {
 
-        new AlertDialog.Builder(ShowUsers.this).setMessage(s).show();
+       // new AlertDialog.Builder(ShowUsers.this).setMessage(s).show();
 
         JSONObject jsonObject = null;
         ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();

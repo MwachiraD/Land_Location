@@ -36,6 +36,7 @@ public class ClientActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
+
         spinner7 = (Spinner) findViewById(R.id.spinner7);
         spinner7.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -82,7 +83,8 @@ public class ClientActivity extends AppCompatActivity {
                     final String status = map.get("status");
                     final String time = map.get("time");
 
-                    if (status.equals("Sold")) {
+                    if (status.equals("Sold"))
+                    {
 
                         Toast.makeText(ClientActivity.this, "Land has already been sold!", Toast.LENGTH_SHORT).show();
 
@@ -165,8 +167,8 @@ public class ClientActivity extends AppCompatActivity {
         });
 
     }
-
-    public void sendSMS(String phoneNo, String msg) {
+    public void sendSMS(String phoneNo, String msg)
+    {
         try {
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(phoneNo, null, msg, null, null);
@@ -178,6 +180,8 @@ public class ClientActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
     }
+
+
     public void getJSON(final String owner_id)
     {
         class GetJSON extends AsyncTask<Void, Void, String> {
@@ -191,7 +195,6 @@ public class ClientActivity extends AppCompatActivity {
                 //Toast.makeText(ClientActivity.this, owner_id, Toast.LENGTH_SHORT).show();
                 if(owner_id=="lands")
                 {
-                    //Toast.makeText(ClientActivity.this, owner_id, Toast.LENGTH_SHORT).show();
                     url=URLs.main + "fetchlands.php";
                 }
                 else
@@ -222,6 +225,7 @@ public class ClientActivity extends AppCompatActivity {
                 super.onPostExecute(s);
                 progressDialog.dismiss();
 
+                Log.d("data_returned", s);
            //     Toast.makeText(ClientActivity.this, s, Toast.LENGTH_SHORT).show();
 
                 if(owner_id=="lands")
@@ -283,6 +287,8 @@ public class ClientActivity extends AppCompatActivity {
                     employees.put("surveyor_id", surveyor_id);
                     employees.put("category", category);
                     employees.put("name", name);
+
+
                     employees.put("phone", phone);
                     employees.put("is_verified",is_verified);
                     Log.d("result", String.valueOf(employees));
@@ -335,11 +341,14 @@ public class ClientActivity extends AppCompatActivity {
 
 
                 succes = jo.getString("success");
-                if (succes.equals("1")) {
-                    String location, price, status, time, cordinates;
+                if (succes.equals("1"))
+                {
+                    String location, price, status, time, cordinates,soiltype,altitude;
                     String land_id = jo.getString("id");
                     String owner = jo.getString("user");
                     location = jo.getString("location");
+                    soiltype = jo.getString("soiltype");
+                    altitude = jo.getString("altitude");
                     price = jo.getString("price");
                     cordinates = jo.getString("cordinates");
                     time = jo.getString("timestamps");
@@ -352,11 +361,18 @@ public class ClientActivity extends AppCompatActivity {
                     employees.put("cordinates", cordinates);
                     employees.put("price", location);
                     employees.put("user", owner);
+
+                    employees.put("altitude", altitude);
+                    employees.put("soiltype", soiltype);
+
                     employees.put("status", status);
                     employees.put("time", time);
                     Log.d("result", String.valueOf(employees));
                     list.add(employees);
-                } else {
+
+
+                } else
+                {
 
                 }
             }
@@ -376,7 +392,8 @@ public class ClientActivity extends AppCompatActivity {
         }
 
         ListAdapter adapter = new SimpleAdapter(ClientActivity.this, list, R.layout.admin_view_coaches,
-                new String[]{"location", "price", "status", "time"}, new int[]{R.id.textView27, R.id.textView26, R.id.textView28, R.id.textView25});
+                new String[]{"location", "price", "status", "time", "soiltype","altitude"},
+                new int[]{R.id.textView27, R.id.textView26, R.id.textView28, R.id.textView25, R.id.textView43, R.id.textView45});
         listView.setAdapter(adapter);
     }
 

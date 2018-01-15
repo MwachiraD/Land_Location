@@ -30,6 +30,7 @@ public class AdminActivity extends AppCompatActivity
     ListView listView;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +47,8 @@ public class AdminActivity extends AppCompatActivity
         getJSON(user);
         listView=(ListView)findViewById(R.id.listview);
 
-        listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener()
+        {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
@@ -59,7 +61,6 @@ public class AdminActivity extends AppCompatActivity
                 final String user = map.get("user");
                 final String status = map.get("statis");
                 final String time = map.get("time");
-
                 startActivity(new Intent(AdminActivity.this, ShowUsers.class).putExtra("land_id", land_id));
             }});
 
@@ -97,6 +98,7 @@ public class AdminActivity extends AppCompatActivity
                 super.onPostExecute(s);
                 progressDialog.dismiss();
                 showthem(s);
+                Log.d("landsdata", s);
               //  Toast.makeText(AdminActivity.this, s, Toast.LENGTH_SHORT).show();
 
             }
@@ -125,15 +127,21 @@ public class AdminActivity extends AppCompatActivity
                 succes=jo.getString("success");
                 if (succes.equals("1"))
                 {
-                    String location, price, status, time, cordinates;
+                    String location, price, status, time, cordinates, altitude, soiltype;
                     String land_id = jo.getString("id");
                     String owner = jo.getString("user");
                     location = jo.getString("location");
                     price = jo.getString("price");
+
+                    altitude = jo.getString("altitude");
+                    soiltype = jo.getString("soiltype");
+
                     cordinates = jo.getString("cordinates");
                     time = jo.getString("timestamps");
                     status = jo.getString("status");
                     HashMap<String, String> employees = new HashMap<>();
+
+
 
                     employees.put("location", price);
                     employees.put("land_id", land_id);
@@ -142,6 +150,12 @@ public class AdminActivity extends AppCompatActivity
                     employees.put("user", owner);
                     employees.put("status", status);
                     employees.put("time", time);
+
+
+                    employees.put("altitude", altitude);
+                    employees.put("soiltype", soiltype);
+
+
                     Log.d("result", String.valueOf(employees));
                     list.add(employees);
                 }
@@ -174,8 +188,15 @@ public class AdminActivity extends AppCompatActivity
                     .setCancelable(true).show();
         }
 
+//        ListAdapter adapter = new SimpleAdapter(AdminActivity.this, list, R.layout.admin_view_coaches,
+//                new String[]{"location", "price","status", "time"},
+//                new int[]{R.id.textView27, R.id.textView26,R.id.textView28, R.id.textView25});
+//        listView.setAdapter(adapter);
+
+
         ListAdapter adapter = new SimpleAdapter(AdminActivity.this, list, R.layout.admin_view_coaches,
-                new String[]{"location", "price","status", "time"}, new int[]{R.id.textView27, R.id.textView26,R.id.textView28, R.id.textView25});
+                new String[]{"location", "price", "status", "time", "soiltype","altitude"},
+                new int[]{R.id.textView27, R.id.textView26, R.id.textView28, R.id.textView25, R.id.textView43, R.id.textView45});
         listView.setAdapter(adapter);
     }
 }

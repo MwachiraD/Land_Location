@@ -24,4 +24,22 @@
 
     <string name="title_activity_place_viewer">Map</string>
     <string name="title_activity_client_map">Map</string>
+
+    <string-array name="soil_type">
+        <item>Select soil type</item>
+        <item>Clay soil</item>
+        <item>Volcanic soil</item>
+        <item>Sand soil</item>
+        <item>Black cotton</item>
+    </string-array>
+
+
+    <string-array name="altitude">
+        <item>Select Altitude</item>
+        <item>Highland</item>
+        <item>Lowland</item>
+        <item>Plateau</item>
+    </string-array>
+
+
 </resources>

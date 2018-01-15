@@ -30,13 +30,10 @@ public class ClientBook extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_book);
-
-
         Intent intent = getIntent();
         location=intent.getStringExtra("location");
        // location=intent.getStringExtra("location");
         price=intent.getStringExtra("price");
-
         user=intent.getStringExtra("user");
         price=intent.getStringExtra("location");
         land_id=intent.getStringExtra("land_id");
@@ -47,7 +44,6 @@ public class ClientBook extends AppCompatActivity {
         editText14=(EditText) findViewById(R.id.editText14);
         button4=(Button)findViewById(R.id.button4);
         button8=(Button)findViewById(R.id.button8);
-
         button8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
@@ -96,7 +92,7 @@ public void book(final String phone, final String ammt, final String land_id, fi
 
             super.onPreExecute();
 
-            Toast.makeText(ClientBook.this, user_id, Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(ClientBook.this, user_id, Toast.LENGTH_SHORT).show();
             progressDialog.setMessage("Applying...");
             progressDialog.setCancelable(false);
             progressDialog.show();
@@ -110,7 +106,6 @@ public void book(final String phone, final String ammt, final String land_id, fi
             employees.put("land_id", land_id);
             employees.put("ammount", ammt);
             employees.put("phone",phone);
-
             String res=rh.sendPostRequest(URLs.main+"mpesa/home.php",employees);
             return res;
 
@@ -120,29 +115,29 @@ public void book(final String phone, final String ammt, final String land_id, fi
         {
             super.onPostExecute(s);
 
-            progressDialog.dismiss();
+
+           progressDialog.dismiss();
             if (s.substring(0,1).equals("1"))
             {
                 new AlertDialog.Builder(ClientBook.this)
-                        .setMessage("Your request has been received" )
+                        .setMessage("Your request request has been received and is awaiting confirmation and feedback. " )
+                        .setNegativeButton("Okay", null)
                         .show();
-
             }
             else
             {
                 new AlertDialog.Builder(ClientBook.this)
-                        .setMessage("Request failed! Land might have been booked!")
+                        .setMessage("Request failed! Please try again later.")
+                        .setNegativeButton("Okay", null)
                         .show();
             }
 
         }
 
-
     }
     GetJSON jj =new GetJSON();
     jj.execute();
 }
-
     public void getJSON(final String coach_phone_, final String ammount)
     {
         class GetJSON extends AsyncTask<Void, Void, String> {
